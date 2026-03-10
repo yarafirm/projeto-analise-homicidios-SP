@@ -25,8 +25,7 @@ Ao confrontar os dados com a literatura de segurança pública, estabeleci as se
 ### 1. Diagnóstico de Estacionaridade (Augmented Dickey-Fuller)
 A primeira etapa consistiu em verificar se a série possui média e variância constantes.
 
-> **[INSERIR AQUI O GRÁFICO DA PÁGINA 3 - SÉRIE ORIGINAL]**
-[Image of time series chart showing homicides in São Paulo with a peak around 2000]
+> (https://github.com/yarafirm/projeto-analise-homicidios-SP/blob/main/data/processed/Homicidios_por_ano.png)
 
 * **Evidência:** O teste ADF em nível (com drift) apresentou um **p-valor de 0.7222**, falhando em rejeitar a hipótese de raiz unitária.
 * **Conclusão:** A série é **Não-Estacionária**, o que exige transformações matemáticas para evitar regressões espúrias.
