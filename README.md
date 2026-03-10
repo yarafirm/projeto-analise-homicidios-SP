@@ -62,8 +62,8 @@ Para garantir que o modelo extraiu toda a informação disponível, testei os re
 ## Conclusão e ajuste do modelo
 O ajuste final demonstra que a queda dos homicídios em São Paulo segue um padrão matemático robusto. A investigação valida que as mudanças estruturais nas últimas décadas criaram uma nova dinâmica de segurança, capturada com precisão pelo modelo ARIMA.
 
-> **[INSERIR AQUI O GRÁFICO DA PÁGINA 10 - AJUSTE FINAL ARIMA]**
-[Image of ARIMA model fit plotted against observed homicide data]
+<img width="800" height="397" alt="series_temporais_ajuste" src="https://github.com/user-attachments/assets/c66ab581-b0d0-4cb6-90c0-40a6f34ad056" />
+
 
 ---
 
