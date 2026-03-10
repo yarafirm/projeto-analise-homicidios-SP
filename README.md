@@ -27,15 +27,13 @@ A primeira etapa consistiu em verificar se a série possui média e variância c
 
 <img width="700" height="347" alt="Homicidios_por_ano" src="https://github.com/user-attachments/assets/1e866458-c25c-4497-8500-d28cf78059d1" />
 
-
 * **Evidência:** O teste ADF em nível (com drift) apresentou um **p-valor de 0.7222**, falhando em rejeitar a hipótese de raiz unitária.
 * **Conclusão:** A série é **Não-Estacionária**, o que exige transformações matemáticas para evitar regressões espúrias.
 
 ### 2. Estabilização da Série via Diferenciação
 Para neutralizar a tendência e estabilizar a variância, aplicou-se a **primeira diferença** ($\Delta Y_t$).
 
-> **[INSERIR AQUI O GRÁFICO DA PÁGINA 9 - SÉRIE VS PRIMEIRA DIFERENÇA]**
-[Image of original time series versus its first difference]
+<img width="700" height="289" alt="series_temporais" src="https://github.com/user-attachments/assets/ac36bc78-2e88-40dd-8e1c-30b7b6efd2c6" />
 
 * **Resultado:** Após a transformação, o teste ADF resultou em um **p-valor de 0.0175**.
 * **Decisão Técnica:** A série tornou-se estacionária, classificando-se como integrada de ordem 1, ou **$I(1)$**.
