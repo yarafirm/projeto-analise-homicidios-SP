@@ -1,71 +1,81 @@
-# Análise de Séries Temporais: Homicídios em São Paulo (1989–2022)
+# Time Series Analysis: Homicides in the State of São Paulo (1989–2022)
 
-## Resumo 
-Este repositório apresenta uma investigação empírica sobre a evolução dos homicídios no Estado de São Paulo ao longo de três décadas. O projeto, migrado de **Stata** para **Python**, utiliza modelos autorregressivos (ARIMA) para decompor a série histórica, testar a estabilidade dos dados e validar as tendências de queda observadas na segurança pública paulista.
+*English version. A versão em português está em [README.pt-BR.md](README.pt-BR.md).*
 
-## Variáveis
-A investigação fundamenta-se na análise univariada de séries temporais, cujo comportamento da variável é explicado pela:
+## Summary
+This repository holds an empirical investigation of how homicides evolved in the State of São Paulo, Brazil, over three decades. The project was migrated from **Stata** to **Python** and uses autoregressive models (ARIMA) to decompose the historical series, test the stability of the data and validate the downward trend observed in public safety in the state.
 
-* **Variável Dependente ($Y$):** Volume anual de **Homicídios**. Representa o indicador de letalidade violenta.
-* **Variável Independente ($X$):** O **Eixo Temporal (Ano)**. Atua como o suporte onde os choques estruturais e as mudanças de políticas públicas são registrados.
+## Variables
+The investigation is a univariate time series analysis, in which the behavior of the variable is explained by:
 
----
-
-## Hipóteses de Literatura
-Ao confrontar os dados com a literatura de segurança pública, estabeleci as seguintes **assumptions** (suposições) sobre a trajetória da série:
-
-1.  **Crise (1989–2001):** Os dados revelam uma ascensão parabólica que culmina em um pico superior a 15.000 ocorrências no início dos anos 2000. Assume-se que este período reflete a expansão do crime organizado e a ausência de mecanismos de inteligência integrada.
-2.  **Reformas Estruturais (Pós-2003):** Observa-se uma redução drástica e consistente na série. A hipótese central da literatura atribui este fenômeno a marcos como o **Estatuto do Desarmamento** e a implementação de sistemas de georreferenciamento criminal (Infocrim).
-3.  **Memória do Fenômeno:** A modelagem estatística busca validar a "memória" do crime, assumindo que a violência de hoje é, em parte, um reflexo condicionado dos eventos do período anterior.
+* **Dependent variable ($Y$):** annual count of **homicides**, the indicator of lethal violence.
+* **Independent variable ($X$):** the **time axis (year)**, the support on which structural shocks and public policy changes are recorded.
 
 ---
 
-## Metodologia de Modelagem Passo a Passo
+## Hypotheses from the Literature
+Confronting the data with the public safety literature, the following assumptions about the trajectory of the series were set:
 
-### 1. Diagnóstico de Estacionaridade (Augmented Dickey-Fuller)
-A primeira etapa consistiu em verificar se a série possui média e variância constantes.
+1.  **Crisis (1989–2001):** the data shows a parabolic rise that peaks above 15,000 occurrences in the early 2000s. This period is assumed to reflect the expansion of organized crime and the absence of integrated intelligence mechanisms.
+2.  **Structural reforms (after 2003):** a sharp and consistent drop in the series. The central hypothesis in the literature attributes it to milestones such as the **Disarmament Statute** (Estatuto do Desarmamento) and the rollout of crime geo-referencing systems (Infocrim).
+3.  **Memory of the phenomenon:** the statistical modeling seeks to validate the "memory" of crime, assuming that today's violence is partly a conditioned reflection of the previous period.
 
-<img width="700" height="347" alt="Homicidios_por_ano" src="https://github.com/user-attachments/assets/1e866458-c25c-4497-8500-d28cf78059d1" />
+---
 
-* **Evidência:** O teste ADF em nível (com drift) apresentou um **p-valor de 0.7222**, falhando em rejeitar a hipótese de raiz unitária.
-* **Conclusão:** A série é **Não-Estacionária**, o que exige transformações matemáticas para evitar regressões espúrias.
+## Modeling Methodology, Step by Step
 
-### 2. Estabilização da Série via Diferenciação
-Para neutralizar a tendência e estabilizar a variância, aplicou-se a **primeira diferença** ($\Delta Y_t$).
+### 1. Stationarity Diagnosis (Augmented Dickey-Fuller)
+The first step was to check whether the series has constant mean and variance.
 
-<img width="700" height="289" alt="series_temporais" src="https://github.com/user-attachments/assets/ac36bc78-2e88-40dd-8e1c-30b7b6efd2c6" />
+<img width="700" height="347" alt="Homicides per year" src="https://github.com/user-attachments/assets/1e866458-c25c-4497-8500-d28cf78059d1" />
 
-* **Resultado:** Após a transformação, o teste ADF resultou em um **p-valor de 0.0175**.
-* **Decisão Técnica:** A série tornou-se estacionária, classificando-se como integrada de ordem 1, ou **$I(1)$**.
+* **Evidence:** the ADF test in levels (with drift) returned a **p-value of 0.7222**, failing to reject the unit root hypothesis.
+* **Conclusion:** the series is **non-stationary**, which calls for a transformation to avoid spurious regressions.
 
-### 3. Seleção e Validação do Modelo ARIMA(1, 1, 0)
-Através da análise das funções de autocorrelação (ACF) e autocorrelação parcial (PACF), identificou-se uma forte dependência do passado imediato (Lag 1).
+### 2. Stabilizing the Series through Differencing
+To neutralize the trend and stabilize the variance, the **first difference** ($\Delta Y_t$) was applied.
 
-| Critério de Informação | ARIMA(0, 1, 0) | ARIMA(1, 1, 0) |
+<img width="700" height="289" alt="Series in levels and first difference" src="https://github.com/user-attachments/assets/ac36bc78-2e88-40dd-8e1c-30b7b6efd2c6" />
+
+* **Result:** after the transformation, the ADF test returned a **p-value of 0.0175**.
+* **Technical decision:** the series became stationary and is classified as integrated of order 1, **$I(1)$**.
+
+### 3. Selection and Validation of the ARIMA(1, 1, 0) Model
+The autocorrelation (ACF) and partial autocorrelation (PACF) functions showed a strong dependence on the immediate past (lag 1).
+
+| Information criterion | ARIMA(0, 1, 0) | ARIMA(1, 1, 0) |
 | :--- | :---: | :---: |
 | **AIC** | 550.44 | **545.35** |
 | **BIC** | 551.93 | **548.35** |
 
-* **Análise:** O modelo **ARIMA(1, 1, 0)** apresentou os menores valores de AIC e BIC, sendo o mais equilibrado estatisticamente.
-* **Coeficiente AR(1):** O valor de **0.3482** ($p=0.002$) confirma que aproximadamente 34,8% da variação residual do ano anterior persiste no ano atual.
+* **Analysis:** **ARIMA(1, 1, 0)** has the lowest AIC and BIC, making it the most balanced model statistically.
+* **AR(1) coefficient:** the value of **0.3482** ($p=0.002$) confirms that roughly 34.8% of the previous year's residual variation persists into the current year.
 
-### 4. Ruído Branco
-Para garantir que o modelo extraiu toda a informação disponível, testei os resíduos.
+### 4. White Noise
+To make sure the model extracted all the available information, the residuals were tested (Ljung-Box).
 
-* **Teste ARIMA:** Obtivemos um **p-valor de 0.73**.
-* **Conclusão Acadêmica:** Como o p-valor é superior a 0.05, os resíduos são classificados como **Ruído Branco**. O modelo é estatisticamente válido e livre de autocorrelação residual.
-
----
-
-## Conclusão e ajuste do modelo
-O ajuste final demonstra que a queda dos homicídios em São Paulo segue um padrão matemático robusto. A investigação valida que as mudanças estruturais nas últimas décadas criaram uma nova dinâmica de segurança, capturada com precisão pelo modelo ARIMA.
-
-<img width="800" height="397" alt="series_temporais_ajuste" src="https://github.com/user-attachments/assets/c66ab581-b0d0-4cb6-90c0-40a6f34ad056" />
-
+* **Result:** **p-value of 0.73**.
+* **Conclusion:** since the p-value is above 0.05, the residuals are classified as **white noise**. The model is statistically valid and free of residual autocorrelation.
 
 ---
 
-## 📂 Organização do Repositório
-* `notebooks/`: Implementação completa em Python (SARIMAX).
-* `data/`: Base histórica processada (1989-2022).
-* `outputs/`: Relatórios detalhados em Excel.
+## Conclusion and Model Fit
+The final fit shows that the fall in homicides in São Paulo follows a robust statistical pattern. The investigation supports the view that the structural changes of the last decades created a new public safety dynamic, captured with precision by the ARIMA model.
+
+<img width="800" height="397" alt="Observed homicides and ARIMA(1,1,0) fit" src="https://github.com/user-attachments/assets/c66ab581-b0d0-4cb6-90c0-40a6f34ad056" />
+
+---
+
+## Repository Layout
+* `data/homicidios_sp_Version3.py`: full Python implementation (pandas, statsmodels), including ADF tests, correlograms, ARIMA(0,1,0) vs ARIMA(1,1,0), Ljung-Box and the charts. Each block is preceded by the original Stata command it replaces.
+* `data/homicidios.csv`: historical series by state (1989–2022); the script filters São Paulo (code 35).
+* `data/processed/`: charts generated by the analysis.
+* The script also exports an Excel workbook (`resultados_homicidios_sp.xlsx`) with the ADF tests, the ARIMA comparison and the data.
+
+## How to Run
+
+```bash
+pip install pandas numpy matplotlib statsmodels openpyxl
+cd data
+python homicidios_sp_Version3.py
+```
